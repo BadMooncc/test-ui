@@ -3,13 +3,14 @@
     <div class="question-item">
       <label class="question-item_label">{{ subject.title }}</label>
       <div class="question-item_content">
-        <div class="choice-group" @click="changeChoice">
+        <div class="choice-group">
           <label
             v-for="(item, index) in choiceLists"
             :key="index"
+            :data-index="index"
             class="checkbox">
-            <input v-model="item.value" class="el-checkbox__original" type="checkbox">
-            <span class="el-checkbox__inner">{{ item.label }}</span>
+            <input @change="changeChoice" :data-index="index" v-model="item.value" class="el-checkbox__original" :name="choiceType" :type="choiceType">
+            <span :data-index="index" class="el-checkbox__inner">{{ item.label }}</span>
           </label>
         </div>
       </div>
@@ -26,13 +27,10 @@ export default {
         title: '选择题噜噜啦',
         options: []
       },
-      choiceLists: [
-        { sort: 'A', code: 1, label: '第一题', value: false },
-        { sort: 'B', code: 2, label: '2题', value: false },
-        { sort: 'C', code: 3, label: '第3题', value: false },
-        { sort: 'D', code: 4, label: '4题', value: false },
-        { sort: 'E', code: 5, label: '第5题', value: false },
-      ]
+      selectedLists: [],
+      currentSeleted: [],
+      choiceType: 'checkbox',
+      choiceLists: []
     }
   },
   props: {
@@ -40,8 +38,16 @@ export default {
       type: Array,
       required: false,
       default() {
-        return ['A', 'B', 'C', 'D'];
+        return [];
       }
+    },
+    layout: {
+      type: String,
+    },
+    title: {
+      type: String,
+      required: false,
+      default: ''
     },
     customChoice: {
       type: Boolean,
@@ -49,22 +55,23 @@ export default {
     }
   },
   created() {
-    if (true) {
-      let newChoiceLists = [];
-      let ChoiceListsItem;
-      this.choiceLists.forEach((item) => {
-        ChoiceListsItem = this.choiceOptions.find(item2 => item2 === item.sort);
-        if (ChoiceListsItem) newChoiceLists.push(item);
-      });
-
-      this.choiceLists = newChoiceLists;
-    }
+    this.choiceLists = this.choiceOptions;
+    this.subject.title = this.title;
   },
   methods: {
-    changeChoice() {
-      this.$emit('changeChoice', this.choiceLists);
-      console.log(this.choiceLists);
-    }
+    changeChoice(e) {
+      const isChecked = e.target.checked; // 是否选中
+      const index = e.target.dataset.index; // 当前选中/删除元素的索引
+      const item = this.choiceLists[index]; // 当前元素
+      if (isChecked) { // 选中则存入数据列表
+        this.selectedLists.push(item);
+      } else { // 取消选中从列表中移除
+        let delIndex = this.selectedLists.findIndex(el => el.code === item.code);
+        this.selectedLists.splice(delIndex, 1);
+      }
+      this.$store.choice = this.selectedLists;
+      this.$emit('getData', this.selectedLists);
+    },
   },
 }
 </script>

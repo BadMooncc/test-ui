@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     changeWeight(val) {
-      this.$emit('getData', this.data);
+      this.$emit('getData', this.datas);
     }
   },
 }

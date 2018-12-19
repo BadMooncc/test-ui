@@ -2,18 +2,16 @@
   <div>
     <div>
       <!-- <component v-for="(view, index) in componentList" refs="view" :key="index" :is="view" :ref="view"></component> -->
-      <q-choice :choice-options="['A', 'B', 'C', 'D']"></q-choice>
+      <q-choice @getData="getChoice" :choice-options="['A', 'B', 'C', 'D']"></q-choice>
       <button @click="aa">添加</button>
     </div>
   </div>
 </template>
 <script>
-import Height from '../height/height'
-import Weight from '../weight/weight'
-import Choice from '../choice/choice'
-Height.$getAlldata = function() {
-  console.log(Height.data().datas);
-}
+import Height from '../height/height';
+import Weight from '../weight/weight';
+import Choice from '../choice/choice';
+
 export default {
   name: 'question',
   props: {
@@ -40,6 +38,9 @@ export default {
         this.allDatas[item] = this.$refs[item][0].datas;
       });
       console.log(this.allDatas);
+    },
+    getChoice(val) {
+      console.log(val);
     }
   },
   mounted() {

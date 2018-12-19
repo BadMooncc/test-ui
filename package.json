@@ -1,6 +1,6 @@
 {
   "name": "test-ui2",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "A Vue.js project",
   "author": "zhaodh09 <zhaodh09@guahao.com>",
   "private": false,
@@ -64,11 +64,12 @@
   },
   "files": [
     "dist/*",
-    "package/*",
+    "packages/*",
+    "src/*",
     "*.json",
     "*.js"
   ],
-  "main": "src/index.js",
+  "main": "packages/index.js",
   "browserslist": [
     "> 1%",
     "last 2 versions",

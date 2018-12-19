@@ -1,6 +1,7 @@
-import height from './packages/height';
-import weight from './packages/weight';
-import choice from './packages/choice';
+import height from './height';
+import weight from './weight';
+import choice from './choice';
+import bus from '../src/store/state'
 
 const components = [
   height,
@@ -8,7 +9,11 @@ const components = [
   choice
 ];
 
-const install = function() {
+const install = function(Vue) {
+  // Vue.prototype.$getAllDatas = function() {
+  //   console.log(bus, 'getAllData');
+  //   return bus;
+  // }
   components.forEach(component => {
     Vue.component(component.name, component);
   });
@@ -19,11 +24,11 @@ if (typeof window !== 'undefined' && window.Vue) {
   install(window.Vue);
 }
 
-module.exports = {
+export default {
   install,
   height,
   weight,
   choice
 }
 
-module.exports.default = module.exports;
+// module.exports.default = module.exports;

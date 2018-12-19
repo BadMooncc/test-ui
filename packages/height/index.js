@@ -1,10 +1,11 @@
-import height from './height'
+import Height from './height'
 
-height.alert = function() {
-  console.log('alert');
-}
-height.install = function(Vue) {
-  Vue.component(height.name, height);
+Height.install = function(Vue) {
+  Vue.prototype.$getHeight = function() {
+    console.log(bus, 'getAllData');
+    return bus.Height;
+  }
+  Vue.component(Height.name, Height);
 }
 
-export default height;
+export default Height;
